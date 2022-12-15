@@ -1,7 +1,7 @@
 """
 $(TYPEDEF)
 """
-struct IdentityOperator{N} <: AbstractSciMLLinearOperator{Bool} end
+struct IdentityOperator{N} <: AbstractSciMLLinearOperator{Bool} end # making N a type parameter seems like it could make compile times really bad
 
 # constructors
 IdentityOperator(u::AbstractArray) = IdentityOperator{size(u,1)}()

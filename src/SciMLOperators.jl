@@ -51,7 +51,10 @@ export ScalarOperator,
        AffineOperator,
        AddVector,
        FunctionOperator,
-       TensorProductOperator
+       TensorProductOperator,
+       IdentityOperator
+
+export ⊗
 
 export update_coefficients!,
        update_coefficients,

@@ -128,7 +128,7 @@ struct InvertibleOperator{T,FType} <: AbstractSciMLLinearOperator{T}
 end
 
 # constructor
-function LinearAlgebra.factorize(L::AbstractSciMLLinearOperator)
+function LinearAlgebra.factorize(L::AbstractSciMLOperator)
     fact = factorize(convert(AbstractMatrix, L))
     InvertibleOperator(fact)
 end
