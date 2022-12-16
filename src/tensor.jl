@@ -89,6 +89,10 @@ has_mul!(L::TensorProductOperator) = has_mul!(L.outer) & has_mul!(L.inner)
 has_ldiv(L::TensorProductOperator) = has_ldiv(L.outer) & has_ldiv(L.inner)
 has_ldiv!(L::TensorProductOperator) = has_ldiv!(L.outer) & has_ldiv!(L.inner)
 
+# should cache be prop'd in below?
+factorize(L::TensorProductOperator) = TensorProductOperator(factorize(L.outer), factorize(L.inner)) 
+# do the rest of the factorizations
+
 # operator application
 function Base.:*(L::TensorProductOperator, u::AbstractVecOrMat)
     _ , ni = size(L.inner)
