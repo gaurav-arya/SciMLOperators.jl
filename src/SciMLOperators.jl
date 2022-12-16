@@ -1,6 +1,7 @@
 module SciMLOperators
 
 using DocStringExtensions
+using Reexport
 
 using LinearAlgebra
 import SparseArrays
@@ -9,6 +10,7 @@ import ArrayInterfaceCore
 import Tricks: static_hasmethod
 import Lazy: @forward
 import Setfield: @set!
+@reexport import TensorCore: ⊗
 
 # overload
 import Base: zero, one, oneunit
@@ -53,8 +55,6 @@ export ScalarOperator,
        FunctionOperator,
        TensorProductOperator,
        IdentityOperator
-
-export ⊗
 
 export update_coefficients!,
        update_coefficients,
