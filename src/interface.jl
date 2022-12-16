@@ -19,12 +19,14 @@ DEFAULT_UPDATE_FUNC(A,u,p,t) = A
 
 update_coefficients!(L,u,p,t) = nothing
 update_coefficients(L,u,p,t) = L
-function update_coefficients!(L::AbstractSciMLOperator, u, p, t)
+function update_coefficients!(L::AbstractSciMLOperator, u, p, t; kwargs...)
     for op in getops(L)
-        update_coefficients!(op, u, p, t)
+        update_coefficients!(op, u, p, t; kwargs...)
     end
     nothing
 end
+# drop kwargs by default, to make the standard use case (just u, p, and t) easier 
+update_coefficients!(L,u,p,t; kwargs...) = update_coefficients!(L,u,p,t);
 
 (L::AbstractSciMLOperator)(u, p, t) = (update_coefficients!(L, u, p, t); L * u)
 (L::AbstractSciMLOperator)(du, u, p, t) = (update_coefficients!(L, u, p, t); mul!(du, L, u))
