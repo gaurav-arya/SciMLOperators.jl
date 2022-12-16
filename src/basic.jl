@@ -354,7 +354,12 @@ for op in (
     end
 end
 
-Base.convert(::Type{AbstractMatrix}, L::AddedOperator) = sum(op -> convert(AbstractMatrix, op), L.ops)
+Base.convert(::Type{AbstractMatrix}, L::AddedOperator) = sum(op -> convert(AbstractMatrix, op), L.ops) # so this will be out of place, so don't want to be doing this super often...
+function Base.copyto!(dest::AbstractMatrix, L::AddedOperator)
+    for op in L.ops
+       dest .+= convert(AbstractMatrix, op) # suboptimal for a number of reasons 
+    end
+end
 SparseArrays.sparse(L::AddedOperator) = sum(sparse, L.ops)
 
 # traits

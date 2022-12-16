@@ -15,6 +15,25 @@ struct MatrixOperator{T,AType<:AbstractMatrix{T},F} <: AbstractSciMLLinearOperat
         new{eltype(A),AType,typeof(update_func)}(A, update_func)
 end
 
+function MatrixOperator(L::AbstractSciMLOperator) 
+    A = convert(AbstractMatrix, L) 
+    println("here")
+    # are closures like the below one bad? 
+    update_func = (A, u, p, t) -> begin
+        # update_coefficients!(L, u, p, t)
+        # #A .= convert(AbstractMatrix, L) # this is bad if convert is allocating.
+        #                                 # so we'd ideally like an in-place copy method of L
+        #                                 # into its AbstractMatrix form.
+        # copyto!(A, L)
+        # println("here")
+        return A
+    end
+    return MatrixOperator(A; update_func)
+end
+
+#<- takes in an abstract SciMLOperator and returns a matrix operator
+# with a concrete backing... but also gets the update func right!
+
 # constructors
 Base.similar(L::MatrixOperator, ::Type{T}, dims::Dims) where{T} = MatrixOperator(similar(L.A, T, dims))
 
