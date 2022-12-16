@@ -559,7 +559,7 @@ function cache_self(L::ComposedOperator, u::AbstractVecOrMat)
     vec = zero(u)
     cache = (vec,)
     for i in reverse(2:length(L.ops))
-        vec   = L.ops[i] * vec
+        vec   = false * similar(u, size(L.ops[i])[1]) #L.ops[i] * vec
         cache = (vec, cache...)
     end
 
